@@ -11,12 +11,17 @@ import java.util.Date;
         sequenceName = "MEMBER_SEQ",
         initialValue = 1, allocationSize = 50)
 public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "MEMBER_SEQ_GENERATOR")
+    @Id @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
-    @Column(name = "name", nullable = false)
+    @Column(name = "USERNAME")
     private String username;
+//    @Column(name = "TEAM_ID")
+//    private Long teamId;
+
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
     public Long getId() {
         return id;
@@ -34,9 +39,13 @@ public class Member {
         this.username = username;
     }
 
-    public Member() {
-
+    public Team getTeam() {
+        return team;
     }
 
-//Getter, Setter…
+    public void changeTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);  // 양방향 연관관계일 시 양쪽에 값을 설정해야 함
+
+    }
 }
