@@ -1,12 +1,12 @@
 package jpabook.jpashop;
 
-import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderItem;
+import jpabook.jpashop.domain.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -18,18 +18,17 @@ public class JpaMain {
         tx.begin();
 
         try {
-            /** 1.양방향
-            Order order = new Order();
-            order.addOrderItem(new OrderItem());
-             */
 
-            /* 2. 단방향 */
-            Order order = new Order();
-            em.persist(order);
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("JJU");
 
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            em.persist(orderItem);
+            Member member = new Member();
+            member.setCreatedBy("JJU");
+            member.setCreatedDate(LocalDateTime.now());
+
+            em.persist(book);
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e) {
